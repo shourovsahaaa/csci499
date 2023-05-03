@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./LoginForm.css";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -32,7 +31,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="body">
+    <div style={{ backgroundImage: "url(./components/LoginBackground.png)" }}>
       <div
         className="center"
         style={{
