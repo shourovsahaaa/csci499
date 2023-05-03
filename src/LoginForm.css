@@ -1,0 +1,140 @@
+body {
+  background-color: #111111;
+  background: url(./components/LoginBackground.png) no-repeat center center
+    fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: "Encode Sans Semi Condensed", sans-serif;
+  position: absolute;
+  margin: 0px;
+}
+
+.signIn {
+  font-size: 36px;
+  font-weight: 500;
+  color: #ffffff;
+  position: relative;
+  left: 0%;
+}
+
+.signIn h1 {
+  font-size: 36px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.inputContainer {
+  position: relative;
+  width: 420px;
+  height: 42px;
+  margin-bottom: 80px;
+}
+
+.inputContainer label {
+  top: 50%;
+  left: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #737373;
+  opacity: 0.6;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.inputContainer input {
+  top: 50%;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  padding: 0 4px;
+  background: white;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #000000;
+}
+
+.inputContainer input:focus ~ label,
+.inputContainer input:valid ~ label {
+  top: -15px;
+  left: 0;
+  font-size: 12px;
+  opacity: 1;
+}
+
+.usernameContainer {
+  position: relative;
+  width: 600px;
+  height: 42px;
+  margin-bottom: 4px;
+}
+
+.usernameContainer label {
+  position: absolute;
+}
+
+.passwordContainer {
+  position: relative;
+  top: 15px;
+  width: 500px;
+  height: 36px;
+  margin-bottom: 4px;
+}
+
+.passwordContainer label {
+  position: relative;
+}
+
+.passwordContainer input {
+  flex: 1;
+}
+
+.signInBtn {
+  position: relative;
+  top: 40px;
+  left: 110px;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 60px;
+  background-color: #fff;
+  color: #000;
+  font-family: "Encode Sans Semi Condensed", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signInBtn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.forgotPassword {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  position: absolute;
+  left: 0%;
+  top: 130%;
+}
+
+.forgotPassword:hover {
+  font-weight: 600;
+}
+
+.register {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  position: absolute;
+  left: 0%;
+  top: 145%;
+}
+
+.register:hover {
+  font-weight: 600;
+}

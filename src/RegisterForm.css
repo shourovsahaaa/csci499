@@ -1,0 +1,19 @@
+.registerFormBackround {
+  background-image: url("./components/LoginBackground.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "Encode Sans Semi Condensed", sans-serif;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 10px;
+}
+
+.registerHeader {
+  font-size: 100px;
+  font-weight: 500;
+  color: #ffffff;
+  position: relative;
+  left: 0%;
+}
