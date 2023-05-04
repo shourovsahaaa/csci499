@@ -53,7 +53,7 @@ export default function Players() {
         backgroundColor: "black",
         backgroundSize: "cover",
         width: "17vw",
-        height: "93vh",
+        height: "100vh",
         margin: "0px",
       }}
     >

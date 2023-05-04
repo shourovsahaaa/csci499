@@ -15,7 +15,7 @@ class Navbar extends Component {
       <nav
         className="NavbarItems"
         style={{
-          width: "204.962vh",
+          width: "100vw",
         }}
       >
         <h1 className="Navbar-Logo">
