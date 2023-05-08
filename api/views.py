@@ -117,7 +117,7 @@ def postCheckCreds(request):
             data = {
                 'value': 0,
                 'message': 'Success! Logged in.',
-                'favoritePlayers': creds.favoritedPlayers,
+                'userdata': creds,
             }
         else:
             data = {
