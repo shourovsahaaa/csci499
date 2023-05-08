@@ -117,7 +117,6 @@ def postCheckCreds(request):
             data = {
                 'value': 0,
                 'message': 'Success! Logged in.',
-                'userdata': creds,
             }
         else:
             data = {
