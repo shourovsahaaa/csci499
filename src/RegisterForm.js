@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./LoginForm.css";
-import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState("");
   const [message, setMessage] = useState("");
+
+  const [usernames, setUsernames] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/usercreds/usernames/")
+      .then((response) => response.json())
+      .then((data) => {
+        setUsernames(data["usernames"]);
+        console.log("data", data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -19,15 +29,6 @@ export default function RegisterForm() {
 
   const handlePasswordVerifyChange = (event) => {
     setPasswordVerify(event.target.value);
-    //if (password !== passwordVerify) {
-    //  setMessage("Passwords do not match. Try again.");
-    //} else {
-    //  setMessage("");
-    //}
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
   };
 
   const handleFocus = (event) => {
@@ -37,8 +38,6 @@ export default function RegisterForm() {
   const handleBlur = (event) => {
     if (event.target.name === "username") {
       event.target.placeholder = "Username";
-    } else if (event.target.name === "email") {
-      event.target.placeholder = "E-mail Address";
     } else if (event.target.name === "password") {
       event.target.placeholder = "Password";
     } else if (event.target.name === "passwordVerify") {
@@ -48,13 +47,26 @@ export default function RegisterForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Username:", username);
-    console.log("Email:", email);
     if (password !== passwordVerify) {
       setMessage("Passwords do not match. Try again.");
     } else {
-      console.log("Password:", password);
-      window.location.pathname = "/signin";
+      if (usernames.includes(username)) {
+        setMessage("Username already in use. Please try again.");
+      } else {
+        fetch("http://localhost:8000/api/usercreds/postusercreds/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: username, password: password }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("data", data);
+          })
+          .catch((error) => console.error(error));
+        window.location.pathname = "/signin";
+      }
     }
   };
 
@@ -94,29 +106,6 @@ export default function RegisterForm() {
                   }}
                 />
               </div>
-            </form>
-          </div>
-          <div className="emailContainer">
-            <form onSubmit={handleSubmit}>
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={handleEmailChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                placeholder="E-mail Address"
-                style={{
-                  fontFamily: "'Encode Sans Semi Condensed', sans-serif",
-                  fontSize: "16px",
-                  fontWeight: 500,
-                  color: "#737373",
-                  width: "420px",
-                  height: "36px",
-                  position: "relative",
-                  top: "3px",
-                }}
-              />
             </form>
           </div>
           <div className="passwordContainer">
@@ -166,13 +155,17 @@ export default function RegisterForm() {
             </form>
             <h5 style={{ color: "red", fontWeight: 500 }}>{message}</h5>
           </div>
-          <button type="submit" className="signInBtn">
-            <a
-              href="/signin"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              Register
-            </a>
+          <button
+            type="submit"
+            className="signInBtn"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              position: "absolute",
+              top: "110%",
+            }}
+          >
+            Register
           </button>
         </form>
       </div>

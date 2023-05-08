@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import favoritePlayers from "./LoginForm.css";
+
 export default function Players() {
   const [players, setPlayers] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
@@ -55,6 +57,9 @@ export default function Players() {
         width: "17vw",
         height: "100vh",
         margin: "0px",
+        zIndex: "-1",
+        position: "absolute",
+        top: "0px",
       }}
     >
       <div
@@ -164,13 +169,13 @@ export default function Players() {
           fontSize: 26,
           position: "absolute",
           top: "12vh",
-          left: "21.5vw",
+          left: "19vw",
         }}
       >
         Stats
       </div>
       {playerStats.length > 0 && (
-        <div
+        <table
           style={{
             color: "white",
             margin: "0px",
@@ -178,20 +183,107 @@ export default function Players() {
             fontSize: 26,
             position: "absolute",
             top: "16vh",
-            left: "21.5vw",
+            left: "19vw",
+            backgroundColor: "black",
+            borderRadius: "10px",
+            overflow: "hidden",
           }}
         >
-          {playerStats.map((player) => (
-            <div key={player.name}>
-              <h2>{player.name}</h2>
-              <p>Nation: {player.nation}</p>
-              <p>Position: {player.position}</p>
-              <p>Squad: {player.squad}</p>
-              <p>Age: {player.age}</p>
-              <p>Starts: {player.starts}</p>
-            </div>
-          ))}
-        </div>
+          <thead
+            style={{
+              background: "linear-gradient(to bottom, #232323, #333333)",
+            }}
+          >
+            <tr>
+              <th
+                style={{
+                  padding: "4px",
+                  textAlign: "left",
+                  fontSize: "16px",
+                }}
+              >
+                Name
+              </th>
+              <th
+                style={{
+                  padding: "4px",
+                  textAlign: "left",
+                  fontSize: "16px",
+                }}
+              >
+                Nation
+              </th>
+              <th
+                style={{
+                  padding: "4px",
+                  textAlign: "left",
+                  fontSize: "16px",
+                }}
+              >
+                Position
+              </th>
+              <th
+                style={{
+                  padding: "4px",
+                  textAlign: "left",
+                  fontSize: "16px",
+                }}
+              >
+                Squad
+              </th>
+              <th
+                style={{
+                  padding: "4px",
+                  textAlign: "left",
+                  fontSize: "16px",
+                }}
+              >
+                Age
+              </th>
+              <th
+                style={{
+                  padding: "4px",
+                  textAlign: "left",
+                  fontSize: "16px",
+                }}
+              >
+                Starts
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {playerStats.map((player, index) => (
+              <tr
+                key={index}
+                style={{
+                  background: index % 2 === 0 ? "#232323" : "#333333",
+                  transition: "all 0.2s ease",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
+                <td style={{ padding: "4px", borderRadius: "10px" }}>
+                  {player.name}
+                </td>
+                <td style={{ padding: "4px", borderRadius: "10px" }}>
+                  {player.nation}
+                </td>
+                <td style={{ padding: "4px", borderRadius: "10px" }}>
+                  {player.position}
+                </td>
+                <td style={{ padding: "4px", borderRadius: "10px" }}>
+                  {player.squad}
+                </td>
+                <td style={{ padding: "4px", borderRadius: "10px" }}>
+                  {player.age}
+                </td>
+                <td style={{ padding: "4px", borderRadius: "10px" }}>
+                  {player.starts}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

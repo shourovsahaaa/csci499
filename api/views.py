@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Players
+from .models import UserCred
 from .serializers import PlayerSerializer
 from django.http import JsonResponse
 import json
@@ -89,9 +90,45 @@ def getsoccerbanter(request):
 
     return JsonResponse({"result": result})
 
+# Parse usernames and return true if a username can be used.
+@api_view(['GET'])
+def getUsernames(request):
+    names = list(UserCred.objects.values_list('username', flat=True))
+    return JsonResponse({'usernames': names})
 
-
-
+# Save the username and password in the user_creds
+@api_view(['POST'])
+def postUserCreds(request):
+    newUsername = request.data.get('username')
+    newPassword = request.data.get('password')
+    usercred = UserCred(username=newUsername, password=newPassword)
+    usercred.save()
+    return JsonResponse({'message': 'User credentials saved successfully.'})
     
-   
+
+@api_view(['POST'])
+def postCheckCreds(request):
+    submittedUsername = request.data.get('submittedUsername')
+    submittedPassword = request.data.get('submittedPassword')
+    usernames = list(UserCred.objects.values_list('username', flat=True))
+    if submittedUsername in usernames:
+        creds = get_object_or_404(UserCred, username=submittedUsername)
+        if submittedPassword == creds.password:
+            data = {
+                'value': 0,
+                'message': 'Success! Logged in.',
+                'favoritePlayers': creds.favoritedPlayers,
+            }
+        else:
+            data = {
+                'value': 1,
+                'message': 'Incorrect username or password. Try again.',
+            }
+
+    else:
+        data = {
+                'value': 2,
+                'message': 'Incorrect username or password. Try again.',
+            }
+    return JsonResponse(data)
 

@@ -19,8 +19,6 @@ export default function ArticleAnalysis() {
   }, []);
 
   function handleSubmit(event) {
-    event.preventDefault();
-
     const requestBody = {
       name: name,
       text: text,
@@ -189,7 +187,7 @@ export default function ArticleAnalysis() {
             <option value="Relevance">Relevance</option>
           </select>
           <button
-            onClick={() => handleSubmit()}
+            onClick={handleSubmit}
             style={{
               fontFamily: "'Encode Sans Semi Condensed', sans-serif",
               backgroundColor: "#0FFF50",

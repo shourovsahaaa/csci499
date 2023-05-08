@@ -13,7 +13,7 @@ import pandas.io.sql as psql
 from .models import Players
 
 ogmsg = "You will take an input from a user on how a soccer player. then based off stats in my database you will ask for which data features you need from that player to make a determination on the veracity of the users original opinion. available features to you are , and when asking you must ask for these as they were written outside of the '-' which explains what they are, nation, pos - position, age , goals , shots, sot - shots on target, sotperc - shots on target percentage. Respond in the format(example): GIVE ME: ##age, goals, shots## "
-openai.api_key = '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'
+openai.api_key = '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'
 
 message_history = []
 def chat(inp, role="user"):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext as _
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 class Players(models.Model):
@@ -147,9 +148,11 @@ class Players(models.Model):
     
     
   
+class UserCred(models.Model):
+    username = models.CharField(_("Username"),max_length=30)
+    password = models.CharField(_("Password"),max_length = 30)
+    favoritedPlayers = ArrayField(models.CharField(max_length=100), default=list)
 
-
-
-
-
+class User(models.Model):
+    username = models.CharField(max_length=30)
 
