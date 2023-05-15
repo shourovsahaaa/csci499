@@ -101,7 +101,7 @@ def getUsernames(request):
 def postUserCreds(request):
     newUsername = request.data.get('username')
     newPassword = request.data.get('password')
-    usercred = UserCred(username=newUsername, password=newPassword)
+    usercred = UserCred(username=newUsername, password=newPassword, favoritedPlayers = "")
     usercred.save()
     return JsonResponse({'message': 'User credentials saved successfully.'})
     
@@ -114,8 +114,12 @@ def postCheckCreds(request):
     if submittedUsername in usernames:
         creds = get_object_or_404(UserCred, username=submittedUsername)
         if submittedPassword == creds.password:
+            favoritePlayers = creds.favoritedPlayers
             data = {
                 'value': 0,
+                'username_': submittedUsername,
+                'password_': submittedPassword,
+                'favoritePlayers_': favoritePlayers,
                 'message': 'Success! Logged in.',
             }
         else:
@@ -131,3 +135,17 @@ def postCheckCreds(request):
             }
     return JsonResponse(data)
 
+@api_view(['POST'])
+def postUpdateFavoritePlayers(request):
+    newPlayerName = request.data.get('playerName')
+    username = request.data.get('username')
+    usercred = get_object_or_404(UserCred, username=username)
+    
+    if usercred.favoritedPlayers:
+        usercred.favoritedPlayers += ',' + newPlayerName  # Add the new player name to the existing string
+    else:
+        usercred.favoritedPlayers = newPlayerName  # Start a new string with the new player name
+    
+    usercred.save()
+    
+    return JsonResponse({'message': 'Favorite Player saved successfully.'})

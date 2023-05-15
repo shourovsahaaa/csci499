@@ -10,4 +10,5 @@ urlpatterns = [
     path('usercreds/usernames/', views.getUsernames),
     path('usercreds/postusercreds/', views.postUserCreds),
     path('usercreds/postcheckcreds/', views.postCheckCreds),
+    path('usercreds/postupdatefavoriteplayers/', views.postUpdateFavoritePlayers),
 ]

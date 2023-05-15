@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext as _
+import json
 
 # Create your models here.
 class Players(models.Model):
@@ -150,7 +151,7 @@ class Players(models.Model):
 class UserCred(models.Model):
     username = models.CharField(_("Username"),max_length=30)
     password = models.CharField(_("Password"),max_length = 30)
-    favoritedPlayers = models.ManyToManyField(Players)
+    favoritedPlayers = models.CharField(_("Favorited Players"), max_length=255, default='')
 
 
 class User(models.Model):

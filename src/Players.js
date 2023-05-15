@@ -1,33 +1,53 @@
 import React, { useState, useEffect } from "react";
-import favoritePlayers from "./LoginForm.css";
 
 export default function Players() {
   const [players, setPlayers] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [playerStats, setPlayerStats] = useState([]);
 
-  const [isPressed, setIsPressed] = useState(false);
-  const handleAddClick = () => {
-    setIsPressed(true);
-  };
+  const currUsername = localStorage.getItem("currUsername");
+  const currPassword = localStorage.getItem("currPassword");
+  const favoritePlayersString = localStorage.getItem("currFavoritePlayers");
+  const favoritePlayers = favoritePlayersString
+    ? favoritePlayersString.split(",")
+    : [];
+
+  useEffect(() => {
+    // Update the selected players state
+    setSelectedPlayers([...selectedPlayers, ...favoritePlayers]);
+  }, []);
+
+  useEffect(() => {
+    handleSubmit(); // Fetch player stats when selectedPlayers change
+  }, [selectedPlayers]);
 
   useEffect(() => {
     fetch("http://localhost:8000/api/players/")
       .then((response) => response.json())
       .then((data) => {
-        setPlayers(data["names"]);
+        setPlayers(data.names);
         console.log("data", data);
       })
       .catch((error) => console.error(error));
   }, []);
 
-  useEffect(() => {
-    handleSubmit();
-  }, [selectedPlayers]);
-
   const handleSelectPlayer = (event) => {
     const selectedPlayer = event.target.value;
-    setSelectedPlayers([...selectedPlayers, selectedPlayer], handleSubmit);
+    const selectedPlayerString = event.target.value.toString();
+    fetch("http://localhost:8000/api/usercreds/postupdatefavoriteplayers/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: currUsername,
+        playerName: selectedPlayerString,
+      }),
+    })
+      .then((response) => response.json())
+      .catch((error) => console.error(error));
+
+    setSelectedPlayers([...selectedPlayers, selectedPlayer]);
   };
 
   const handleRemovePlayer = (player) => {
@@ -35,12 +55,13 @@ export default function Players() {
     setPlayerStats(playerStats.filter((p) => p.name !== player));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     Promise.all(
-      selectedPlayers.map((player) =>
-        fetch(`http://localhost:8000/api/player/${player}/stats/`).then((res) =>
-          res.json()
-        )
+      selectedPlayers.map(
+        (player) =>
+          fetch(`http://localhost:8000/api/player/${player}/stats/`)
+            .then((res) => res.json())
+            .then((data) => ({ name: player, ...data })) // Include player name in the stats data
       )
     )
       .then((data) => {

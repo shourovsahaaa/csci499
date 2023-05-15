@@ -44,6 +44,9 @@ export default function LoginForm() {
       .then((response) => response.json())
       .then((data) => {
         if (data["value"] === 0) {
+          localStorage.setItem("currUsername", data["username_"]);
+          localStorage.setItem("currPassword", data["password_"]);
+          localStorage.setItem("currFavoritePlayers", data["favoritePlayers_"]);
           window.location.pathname = "/home";
         } else {
           setMessage(data["message"]);
