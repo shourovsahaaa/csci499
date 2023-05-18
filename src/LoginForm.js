@@ -5,7 +5,6 @@ export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [userData, setUserData] = useState([]);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -46,7 +45,6 @@ export default function LoginForm() {
         if (data["value"] === 0) {
           localStorage.setItem("currUsername", data["username_"]);
           localStorage.setItem("currPassword", data["password_"]);
-          localStorage.setItem("currFavoritePlayers", data["favoritePlayers_"]);
           window.location.pathname = "/home";
         } else {
           setMessage(data["message"]);

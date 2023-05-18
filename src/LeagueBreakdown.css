@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -1;
+}
+
+.column {
+  margin-top: 0px;
+  flex-basis: 50%; /* Each column takes 50% width */
+  display: flex;
+  flex-direction: column;
+  justify-content: normal;
+  align-items: center;
+  position: sticky;
+}
+
+table {
+  color: white;
+  font-family: "Encode Sans Semi Condensed", sans-serif;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-collapse: collapse;
+  width: 90%;
+  height: 0%;
+  margin-bottom: 30px;
+  table-layout: auto;
+}
+
+th {
+  background-color: rgba(255, 255, 255, 0.3);
+  white-space: nowrap;
+}
+
+td,
+th {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+tr:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+/* Updated styles for top scorer, top team, and last three games sections */
+
+td:nth-child(1) {
+  width: 25%; /* Adjusted size for the top scorer section */
+}
+
+td:nth-child(2) {
+  width: 25%; /* Adjusted size for the top team section */
+}
+
+td:nth-child(3) {
+  width: 50%; /* Adjusted size for the last three games section */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap; /* Prevent line breaks in the list */
+  overflow: hidden; /* Hide horizontal overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed content */
+}

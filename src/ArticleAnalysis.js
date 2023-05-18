@@ -7,6 +7,8 @@ export default function ArticleAnalysis() {
   const [opinion, setOpinion] = useState("");
   const [players, setPlayers] = useState([]);
   const [result, setResult] = useState("");
+  const [aspect, setAspect] = useState("");
+  const [generatingMessage, setGeneratingMessage] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8000/api/players/")
@@ -19,11 +21,31 @@ export default function ArticleAnalysis() {
   }, []);
 
   function handleSubmit(event) {
+    event.preventDefault();
+
     const requestBody = {
       name: name,
       text: text,
       opinion: opinion,
+      aspect: aspect,
     };
+
+    const interval = setInterval(() => {
+      setGeneratingMessage((prevMessage) => {
+        switch (prevMessage) {
+          case "":
+            return "Generating.";
+          case "Generating.":
+            return "Generating..";
+          case "Generating..":
+            return "Generating...";
+          case "Generating...":
+            return "Generating.";
+          default:
+            return "";
+        }
+      });
+    }, 1000);
 
     fetch("http://localhost:8000/api/soccerbanter/", {
       method: "POST",
@@ -31,19 +53,27 @@ export default function ArticleAnalysis() {
       body: JSON.stringify(requestBody),
     })
       .then((response) => response.json())
-      .then((data) => setResult(data.result))
-      .catch((error) => console.error(error));
+      .then((data) => {
+        setResult(data.result);
+        clearInterval(interval);
+        setGeneratingMessage("");
+      })
+      .catch((error) => {
+        console.error(error);
+        clearInterval(interval);
+      });
   }
+
   return (
     <div
+      className="AAbody"
       style={{
-        backgroundColor: "white",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100vw",
         height: "100vh",
         zIndex: "-1",
-        fontfamily: "Encode Sans Semi Condensed, sans-serif",
+        fontFamily: "Encode Sans Semi Condensed, sans-serif",
         margin: 0,
         position: "absolute",
         top: "0px",
@@ -53,17 +83,19 @@ export default function ArticleAnalysis() {
         className="center"
         style={{ position: "absolute", left: "15%", top: "7%" }}
       >
-        <h1 style={{ fontSize: "40px" }}>Article Analyzer</h1>
+        <h1 style={{ fontSize: "40px", color: "#FFFFFF", fontWeight: "500" }}>
+          Article Analyzer
+        </h1>
         <text
           style={{
             width: "20vw",
             height: "60vh",
             fontFamily: "'Encode Sans Semi Condensed', sans-serif",
-            fontSize: "36px",
-            fontWeight: 500,
-            color: "#000000",
+            fontSize: "32px",
+            fontWeight: "500",
+            color: "#FFFFFF",
             position: "absolute",
-            top: "95%",
+            top: "99%",
             left: "-75.7%",
             textAlign: "end",
           }}
@@ -72,6 +104,7 @@ export default function ArticleAnalysis() {
           <br />
           <br />
           Article
+          <br />
           <br />
           <br />
           <br />
@@ -90,9 +123,9 @@ export default function ArticleAnalysis() {
             width: "425px",
             height: "60vh",
             fontFamily: "'Encode Sans Semi Condensed', sans-serif",
-            fontSize: "36px",
+            fontSize: "32px",
             fontWeight: 500,
-            color: "#000000",
+            color: "#FFFFFF",
             position: "absolute",
             top: "95%",
             left: "85%",
@@ -144,12 +177,11 @@ export default function ArticleAnalysis() {
               width: "420px",
               height: "288px",
               position: "absolute",
-              top: "16.75%",
+              top: "16%",
               left: "0%",
             }}
             required
           />
-
           <textarea
             type="text"
             name="opinion"
@@ -177,14 +209,18 @@ export default function ArticleAnalysis() {
               width: "425px",
               height: "32px",
               position: "absolute",
-              top: "97.35%",
+              top: "94%",
               left: "0%",
             }}
+            required
+            onChange={(event) => setAspect(event.target.value)}
           >
-            <option value="summary">Generate summary...</option>
-            <option value="veracity">Accuracy</option>
-            <option value="credibility">Credibility</option>
-            <option value="Relevance">Relevance</option>
+            <option disabled value="">
+              Select an option...
+            </option>
+            <option value="Summary">Generate summary...</option>
+            <option value="Veracity">Veracity</option>
+            <option value="Tone">Tone/Bias</option>
           </select>
           <button
             onClick={handleSubmit}
@@ -208,9 +244,9 @@ export default function ArticleAnalysis() {
           <text
             style={{
               fontFamily: "'Encode Sans Semi Condensed', sans-serif",
-              fontSize: "36px",
+              fontSize: "32px",
               fontWeight: 500,
-              color: "#000000",
+              color: "#FFFFFF",
               position: "absolute",
               top: "95%",
               left: "275%",
@@ -218,6 +254,19 @@ export default function ArticleAnalysis() {
           >
             Result
           </text>
+
+          <div
+            style={{
+              position: "absolute",
+              top: "655%",
+              left: "277%",
+              color: "red",
+              fontSize: "24px",
+            }}
+          >
+            {generatingMessage}
+          </div>
+
           <textarea
             readOnly
             value={result}
@@ -225,7 +274,7 @@ export default function ArticleAnalysis() {
               width: "25vw",
               height: "56.16vh",
               fontFamily: "'Encode Sans Semi Condensed', sans-serif",
-              fontSize: "36px",
+              fontSize: "20px",
               fontWeight: 500,
               color: "#000000",
               position: "absolute",

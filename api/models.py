@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext as _
-import json
 
 # Create your models here.
 class Players(models.Model):
@@ -145,15 +144,55 @@ class Players(models.Model):
     AerLost = models.FloatField(_("AerLost"), null = True)
     AerWonperc = models.FloatField(_("AerWon%"), null = True)
 
-    
-    
-  
+
+class League(models.Model):
+    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=10, unique=True, null = True)
+    topscorer = models.CharField(max_length=100)
+    topteam = models.CharField(max_length= 100)
+    lastgame1 = models.CharField(max_length=100)
+    lastgame2 = models.CharField(max_length=100)
+    lastgame3 = models.CharField(max_length=100)
+    nextgame1 = models.CharField(max_length=100)
+    nextgame2 = models.CharField(max_length=100)
+    nextgame3 = models.CharField(max_length=100)
+
+class Teams(models.Model):
+    name = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
+    matchesplayed = models.IntegerField(null = True)
+    wins = models.IntegerField(null = True)
+    draws = models.IntegerField(null = True)
+    losses = models.IntegerField(null = True)
+    goalsmade = models.IntegerField(null = True)
+    goalsgave = models.IntegerField(null = True)
+    goaldiff = models.IntegerField(null = True)
+    points = models.IntegerField(null = True)
+    pointspermatch = models.FloatField( null = True)
+    expectedgoals = models.FloatField( null = True)
+    expectedgoalsallowed = models.FloatField( null = True)
+    expectedgoaldiff = models.FloatField( null = True)
+    expectedgoaldiff  = models.FloatField( null = True)
+    Attendance = models.IntegerField(null = True)
+    TopTeamScorer = models.CharField(max_length=50)
+    Goalkeeper = models.CharField(max_length=50)
+
+
+
+
+
 class UserCred(models.Model):
     username = models.CharField(_("Username"),max_length=30)
-    password = models.CharField(_("Password"),max_length = 30)
     favoritedPlayers = models.CharField(_("Favorited Players"), max_length=255, default='')
+    favoriteTeams = models.CharField(max_length= 255, default = '')
+    favoriteLeagues = models.CharField(max_length = 255, default = '')
 
 
-class User(models.Model):
-    username = models.CharField(max_length=30)
+
+    
+  
+
+
+
+
 

@@ -63,9 +63,9 @@ export default function RegisterForm() {
           .then((response) => response.json())
           .then((data) => {
             console.log("data", data);
+            window.location.pathname = "/signin";
           })
           .catch((error) => console.error(error));
-        window.location.pathname = "/signin";
       }
     }
   };
